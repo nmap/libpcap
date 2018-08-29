@@ -119,4 +119,4 @@ codes as errors.
 can be called, with a warning or error code as an argument, to fetch a
 message describing the warning or error code.
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

@@ -90,7 +90,13 @@ is returned,
 .B pcap_geterr(\fIp\fB)
 can be used to get the error text.
 .SH SEE ALSO
-pcap(3PCAP), pcap_create(3PCAP), pcap_activate(3PCAP),
-pcap_open_offline(3PCAP), pcap_open_live(3PCAP), pcap_open_dead(3PCAP),
-pcap_dump(3PCAP), pcap_dump_close(3PCAP), pcap_geterr(3PCAP),
-pcap-savefile(@MAN_FILE_FORMATS@)
+.BR pcap (3PCAP),
+.BR pcap_create (3PCAP),
+.BR pcap_activate (3PCAP),
+.BR pcap_open_offline (3PCAP),
+.BR pcap_open_live (3PCAP),
+.BR pcap_open_dead (3PCAP),
+.BR pcap_dump (3PCAP),
+.BR pcap_dump_close (3PCAP),
+.BR pcap_geterr (3PCAP),
+.BR pcap-savefile (@MAN_FILE_FORMATS@)

@@ -130,4 +130,6 @@ is not available on Windows.
 A selectable file descriptor is returned if one exists; otherwise, \-1
 is returned.
 .SH SEE ALSO
-pcap(3PCAP), select(2), poll(2)
+.BR pcap (3PCAP),
+.BR select (2),
+.BR poll (2)

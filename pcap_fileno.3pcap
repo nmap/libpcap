@@ -61,6 +61,10 @@ but that has not yet been activated with
 .BR pcap_activate() ,
 it returns \-1.
 .SH SEE ALSO
-pcap(3PCAP), pcap_create(3PCAP), pcap_activate(3PCAP),
-pcap_open_live(3PCAP), pcap_open_offline(3PCAP),
-pcap_fopen_offline(3PCAP), pcap_open_dead(3PCAP)
+.BR pcap (3PCAP),
+.BR pcap_create (3PCAP),
+.BR pcap_activate (3PCAP),
+.BR pcap_open_live (3PCAP),
+.BR pcap_open_offline (3PCAP),
+.BR pcap_fopen_offline (3PCAP),
+.BR pcap_open_dead (3PCAP)

@@ -40,4 +40,6 @@ when that BPF program is no longer needed, for example after it
 has been made the filter program for a pcap structure by a call to
 .BR pcap_setfilter() .
 .SH SEE ALSO
-pcap(3PCAP), pcap_compile(3PCAP), pcap_setfilter(3PCAP)
+.BR pcap (3PCAP),
+.BR pcap_compile (3PCAP),
+.BR pcap_setfilter (3PCAP)

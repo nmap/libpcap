@@ -68,6 +68,7 @@ may be called with
 .I p
 as an argument to fetch or display the error text.
 .SH SEE ALSO
-pcap(3PCAP), pcap_geterr(3PCAP),
-pcap_datalink_val_to_name(3PCAP),
-pcap-linktype(@MAN_MISC_INFO@)
+.BR pcap (3PCAP),
+.BR pcap_geterr (3PCAP),
+.BR pcap_datalink_val_to_name (3PCAP),
+.BR pcap-linktype (@MAN_MISC_INFO@)

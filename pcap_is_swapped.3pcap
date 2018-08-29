@@ -48,4 +48,4 @@ returns true (1) or false (0) on success and
 .B PCAP_ERROR_NOT_ACTIVATED
 if called on a capture handle that has been created but not activated.
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

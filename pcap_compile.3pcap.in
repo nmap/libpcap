@@ -66,5 +66,8 @@ may be called with
 .I p
 as an argument to fetch or display the error text.
 .SH SEE ALSO
-pcap(3PCAP), pcap_setfilter(3PCAP), pcap_freecode(3PCAP),
-pcap_geterr(3PCAP), pcap-filter(@MAN_MISC_INFO@)
+.BR pcap (3PCAP),
+.BR pcap_setfilter (3PCAP),
+.BR pcap_freecode (3PCAP),
+.BR pcap_geterr (3PCAP),
+.BR pcap-filter (@MAN_MISC_INFO@)

@@ -95,4 +95,6 @@ the flag is cleared, so a subsequent call will resume reading packets.
 If a positive number is returned, the flag is not cleared, so a
 subsequent call will return \-2 and clear the flag.
 .SH SEE ALSO
-pcap(3PCAP), pcap_loop(3PCAP), pcap_next_ex(3PCAP)
+.BR pcap (3PCAP),
+.BR pcap_loop (3PCAP),
+.BR pcap_next_ex (3PCAP)

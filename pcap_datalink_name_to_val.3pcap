@@ -44,4 +44,4 @@ translation is case-insensitive.
 returns the type value on success and \-1 if the name is not a known
 type name..
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

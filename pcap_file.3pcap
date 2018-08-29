@@ -54,4 +54,5 @@ or the value returned by
 when passed the return value of
 .BR pcap_file() .
 .SH SEE ALSO
-pcap(3PCAP), pcap_open_offline(3PCAP)
+.BR pcap (3PCAP),
+.BR pcap_open_offline (3PCAP)

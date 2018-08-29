@@ -40,4 +40,6 @@ but not yet written to the ``savefile'' will be written.
 .B pcap_dump_flush()
 returns 0 on success and \-1 on failure.
 .SH SEE ALSO
-pcap(3PCAP), pcap_dump_open(3PCAP), pcap_dump(3PCAP)
+.BR pcap (3PCAP),
+.BR pcap_dump_open (3PCAP),
+.BR pcap_dump (3PCAP)
