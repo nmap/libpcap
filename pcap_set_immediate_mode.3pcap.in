@@ -92,4 +92,6 @@ is available, it should be used.
 .PP
 On other platforms, capture devices are always in immediate mode.
 .SH SEE ALSO
-pcap(3PCAP), pcap_create(3PCAP), pcap_activate(3PCAP)
+.BR pcap (3PCAP),
+.BR pcap_create (3PCAP),
+.BR pcap_activate (3PCAP)

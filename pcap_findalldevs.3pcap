@@ -228,4 +228,4 @@ and
 .B PCAP_IF_CONNECTION_STATUS_NOT_APPLICABLE
 constants became available in libpcap release 1.9.0.
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

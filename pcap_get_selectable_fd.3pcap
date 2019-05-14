@@ -148,4 +148,5 @@ A selectable file descriptor is returned if one exists; otherwise,
 .B PCAP_ERROR
 is returned.
 .SH SEE ALSO
-pcap(3PCAP), kqueue(2)
+.BR pcap (3PCAP),
+.BR kqueue (2)

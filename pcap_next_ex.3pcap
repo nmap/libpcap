@@ -141,4 +141,4 @@ non-blocking mode and no packets were available to be read), or if no
 more packets are available in a ``savefile.'' Unfortunately, there is no
 way to determine whether an error occurred or not.
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

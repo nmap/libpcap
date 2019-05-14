@@ -112,4 +112,4 @@ subsequent call will return
 .B PCAP_ERROR_BREAK
 and clear the flag.
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

@@ -47,4 +47,4 @@ parameter is of type
 as returned by
 .BR pcap_dump_open() .
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

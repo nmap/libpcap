@@ -65,4 +65,5 @@ returns the link-layer header type on success and
 .B PCAP_ERROR_NOT_ACTIVATED
 if called on a capture handle that has been created but not activated.
 .SH SEE ALSO
-pcap(3PCAP), pcap-linktype(@MAN_MISC_INFO@)
+.BR pcap (3PCAP),
+.BR pcap-linktype (@MAN_MISC_INFO@)

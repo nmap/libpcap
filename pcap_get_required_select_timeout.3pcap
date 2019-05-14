@@ -94,5 +94,9 @@ cannot be used on any capture source for which
 .B pcap_get_selectable_fd
 returns \-1.
 .SH SEE ALSO
-pcap(3PCAP), pcap_get_selectable_fd(3PCAP), select(2), poll(2),
-epoll_wait(2), kqueue(2)
+.BR pcap (3PCAP),
+.BR pcap_get_selectable_fd (3PCAP),
+.BR select (2),
+.BR poll (2),
+.BR epoll_wait (2),
+.BR kqueue (2)

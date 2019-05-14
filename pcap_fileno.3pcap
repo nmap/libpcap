@@ -62,4 +62,4 @@ but that has not yet been activated with
 it returns
 .BR PCAP_ERROR .
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

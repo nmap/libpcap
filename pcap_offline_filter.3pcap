@@ -52,4 +52,4 @@ returns the return value of the filter program.  This will be zero if
 the packet doesn't match the filter and non-zero if the packet matches
 the filter.
 .SH SEE ALSO
-pcap(3PCAP)
+.BR pcap (3PCAP)

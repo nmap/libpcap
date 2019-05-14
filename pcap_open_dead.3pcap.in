@@ -75,4 +75,5 @@ should be specified if the packets to be written have time stamps in
 seconds and nanoseconds.  Its value does not affect
 .BR pcap_compile(3PCAP) .
 .SH SEE ALSO
-pcap(3PCAP), \%pcap-linktype(@MAN_MISC_INFO@)
+.BR pcap (3PCAP),
+.BR \%pcap-linktype (@MAN_MISC_INFO@)

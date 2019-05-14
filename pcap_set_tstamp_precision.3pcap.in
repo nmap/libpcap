@@ -61,6 +61,6 @@ This function became available in libpcap release 1.5.1.  In previous
 releases, time stamps from a capture device or savefile are always given
 in seconds and microseconds.
 .SH SEE ALSO
-pcap(3PCAP),
-pcap_get_tstamp_precision(3PCAP),
-pcap-tstamp(@MAN_MISC_INFO@)
+.BR pcap (3PCAP),
+.BR pcap_get_tstamp_precision (3PCAP),
+.BR pcap-tstamp (@MAN_MISC_INFO@)
