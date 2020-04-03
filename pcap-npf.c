@@ -1034,11 +1034,9 @@ pcap_activate_npf(pcap_t *p)
 		p->linktype = DLT_PPI;
 		break;
 
-#ifdef NdisMediumWirelessWan
 	case NdisMediumWirelessWan:
 		p->linktype = DLT_RAW;
 		break;
-#endif
 
 	default:
 		/*
