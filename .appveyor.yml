@@ -2,6 +2,10 @@ version: '{build}'
 
 clone_depth: 5
 
+branches:
+  except:
+    - coverity_scan
+
 matrix:
   fast_finish: true
 
