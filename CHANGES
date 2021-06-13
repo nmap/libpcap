@@ -2,10 +2,12 @@ Monthday, Month DD, YYYY
   Summary for 1.11.0 libpcap release (so far!)
     Add LINKTYPE_ETW/DLT_ETW.
 
-Monthday, Month DD, YYYY
-  Summary for 1.10.1 libpcap release (so far!)
+Wednesday, June 9, 2021
+  Summary for 1.10.1 libpcap release
     Packet filtering:
-        Fix "type XXX subtype YYY" giving a parse error
+      Fix "type XXX subtype YYY" giving a parse error
+    Source code:
+      Add PCAP_AVAILABLE_1_11.
     Building and testing:
       Rename struct bpf_aux_data to avoid NetBSD compile errors
       Squelch some compiler warnings
@@ -13,15 +15,32 @@ Monthday, Month DD, YYYY
       Fix cross-builds with older kernels lacking BPF_MOD and BPF_XOR
       Fix Bison detection for minor version 0.
       Fix parallel build with FreeBSD make.
+      Get DLT_MATCHING_MAX right in gencode.c on NetBSD.
+      Define timeradd() and timersub() if necessary.
+      Fix Cygwin/MSYS target directories.
+      Fix symlinking with DESTDIR.
+      Fix generation of libpcap.pc with CMake when not building a shared
+          library.
+      Check for Arm64 as well as x86-64 when looking for packet.lib on
+          Windows.
     Documentation:
       Refine Markdown in README.md.
       Improve the description of portrange in filters.
       README.linux.md isn't Markdown, rename it just README.linux.
+    pcapng:
+      Support reading version 1.2, which some writers produce, and which
+          is the same as 1.0 (some new block types were added, but
+          that's not sufficient reason to bump the minor version number,
+          as code that understands those new block types can handle them
+          in a 1.0 file)
     Linux:
       Drop support for text-mode USB captures, as we require a 2.6.27
           or later kernel (credit to Chaoyuan Peng for noting the
           sscanf vulnerabilities in the text-mode code that got me to
           realize that we didn't need this code any more)
+      Bluetooth: fix non-blocking mode.
+      Don't assume that all compilers used to build for Linux support
+          the __atomic builtins
     Windows:
       Add more information in "interface disappeared" error messages, in
         the hopes of trying to figure out the cause.
@@ -31,6 +50,11 @@ Monthday, Month DD, YYYY
       Report the Windows error status if PacketSendPacket() fails.
       Use %lu for ULONGs in error message formats.
       Don't treat the inability to find airpcap.dll as an error.
+      Ignore spurious error reports by Microsoft Surface mobile
+          telephony modem driver
+    rpcap:
+      Clean up error checking and error messages for server address
+          lookup.
 
 Tuesday, December 29, 2020
   Summary for 1.10.0 libpcap release

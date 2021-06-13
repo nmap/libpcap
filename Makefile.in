@@ -823,9 +823,12 @@ rc1 rc2 rc3 rc4 rc5:
 	@VER=`cat $(srcdir)/VERSION`; \
 	sed -i "s/$$VER/$${VER}$@/" VERSION ; \
 	make releasetar; \
-	git checkout VERSION
+	git checkout VERSION configure
 
 depend:	$(GENERATED_C_SRC) $(GENHDR)
 	$(MKDEP) -c "$(CC)" -m "$(DEPENDENCY_CFLAG)" -s "$(srcdir)" $(CFLAGS) $(DEFS) $(INCLS) $(SRC)
 	(cd rpcapd; $(MAKE) depend)
 	(cd testprogs; $(MAKE) depend)
+
+shellcheck:
+	shellcheck -f gcc build.sh build_matrix.sh

@@ -7,16 +7,23 @@ set -e
 
 # CC: gcc or clang
 CC=${CC:-gcc}
+# GCC and Clang recognize --version and print to stdout. Sun compilers
+# recognize -V and print to stderr.
+"$CC" --version 2>/dev/null || "$CC" -V || :
 # CMAKE: no or yes
 CMAKE=${CMAKE:-no}
 # REMOTE: no or yes
 REMOTE=${REMOTE:-no}
 # Install directory prefix
-PREFIX=/tmp/local
+if [ -z "$PREFIX" ]; then
+    PREFIX=$(mktemp -d -t libpcap_build_XXXXXXXX)
+    echo "PREFIX set to '$PREFIX'"
+    DELETE_PREFIX=yes
+fi
 
 travis_fold() {
-    local action="$1"
-    local name="$2"
+    local action=${1:?}
+    local name=${2:?}
     if [ "$TRAVIS" != true ]; then return; fi
     echo -ne "travis_fold:$action:$LABEL.script.$name\\r"
     sleep 1
@@ -26,6 +33,7 @@ travis_fold() {
 run_after_echo() {
     echo -n '$ '
     echo "$@"
+    # shellcheck disable=SC2068
     $@
 }
 
@@ -34,7 +42,7 @@ LABEL="$CC.$CMAKE.$REMOTE"
 if [ "$CMAKE" = no ]; then
     echo '$ ./configure [...]'
     travis_fold start configure
-    ./configure --prefix=$PREFIX --enable-remote="$REMOTE"
+    ./configure --prefix="$PREFIX" --enable-remote="$REMOTE"
     travis_fold end configure
 else
     # Remove the leftovers from any earlier in-source builds, so this
@@ -45,7 +53,7 @@ else
     cd build
     echo '$ cmake [...]'
     travis_fold start cmake
-    cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DENABLE_REMOTE="$REMOTE" ..
+    cmake -DCMAKE_INSTALL_PREFIX="$PREFIX" -DENABLE_REMOTE="$REMOTE" ..
     travis_fold end cmake
 fi
 run_after_echo "make -s clean"
@@ -69,11 +77,7 @@ fi
 if [ "$TRAVIS" = true ]; then
     echo '$ cat Makefile [...]'
     travis_fold start cat_makefile
-    if [ "$CMAKE" = no ]; then
-        sed -n '1,/DO NOT DELETE THIS LINE -- mkdep uses it/p' < Makefile
-    else
-        cat Makefile
-    fi
+    sed '/^# DO NOT DELETE THIS LINE -- mkdep uses it.$/q' < Makefile
     travis_fold end cat_makefile
     echo '$ cat config.h'
     travis_fold start cat_config_h
@@ -85,5 +89,8 @@ if [ "$TRAVIS" = true ]; then
         cat config.log
         travis_fold end cat_config_log
     fi
+fi
+if [ "$DELETE_PREFIX" = yes ]; then
+    rm -rf "$PREFIX"
 fi
 # vi: set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab autoindent :
