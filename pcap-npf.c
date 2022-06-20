@@ -304,7 +304,8 @@ pcap_setbuff_npf(pcap_t *p, int dim)
 
 	if(PacketSetBuff(pw->adapter,dim)==FALSE)
 	{
-		snprintf(p->errbuf, PCAP_ERRBUF_SIZE, "driver error: not enough memory to allocate the kernel buffer");
+		pcap_fmt_errmsg_for_win32_err(p->errbuf, PCAP_ERRBUF_SIZE,
+		    GetLastError(), "PacketSetBuff error");
 		return (-1);
 	}
 	return (0);
@@ -318,7 +319,8 @@ pcap_setmode_npf(pcap_t *p, int mode)
 
 	if(PacketSetMode(pw->adapter,mode)==FALSE)
 	{
-		snprintf(p->errbuf, PCAP_ERRBUF_SIZE, "driver error: working mode not recognized");
+		pcap_fmt_errmsg_for_win32_err(p->errbuf, PCAP_ERRBUF_SIZE,
+		    GetLastError(), "PacketSetMode error");
 		return (-1);
 	}
 
@@ -333,7 +335,8 @@ pcap_setmintocopy_npf(pcap_t *p, int size)
 
 	if(PacketSetMinToCopy(pw->adapter, size)==FALSE)
 	{
-		snprintf(p->errbuf, PCAP_ERRBUF_SIZE, "driver error: unable to set the requested mintocopy size");
+		pcap_fmt_errmsg_for_win32_err(p->errbuf, PCAP_ERRBUF_SIZE,
+		    GetLastError(), "PacketSetMode error");
 		return (-1);
 	}
 	return (0);
@@ -781,7 +784,8 @@ pcap_read_win32_dag(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
 		 */
 		PacketInitPacket(&Packet, (BYTE *)p->buffer, p->bufsize);
 		if (!PacketReceivePacket(pw->adapter, &Packet, TRUE)) {
-			snprintf(p->errbuf, PCAP_ERRBUF_SIZE, "read error: PacketReceivePacket failed");
+			pcap_fmt_errmsg_for_win32_err(p->errbuf, PCAP_ERRBUF_SIZE,
+			    GetLastError(), "PacketReceivePacket error");
 			return (-1);
 		}
 
@@ -1374,7 +1378,8 @@ pcap_activate_npf(pcap_t *p)
 
 		if(PacketSetBuff(pw->adapter,p->opt.buffer_size)==FALSE)
 		{
-			snprintf(p->errbuf, PCAP_ERRBUF_SIZE, "driver error: not enough memory to allocate the kernel buffer");
+			pcap_fmt_errmsg_for_win32_err(p->errbuf, PCAP_ERRBUF_SIZE,
+			    GetLastError(), "PacketSetBuff error");
 			goto bad;
 		}
 
@@ -1492,8 +1497,8 @@ pcap_activate_npf(pcap_t *p)
 	{
 		if (!PacketSetLoopbackBehavior(pw->adapter, NPF_DISABLE_LOOPBACK))
 		{
-			snprintf(p->errbuf, PCAP_ERRBUF_SIZE,
-			    "Unable to disable the capture of loopback packets.");
+			pcap_fmt_errmsg_for_win32_err(p->errbuf, PCAP_ERRBUF_SIZE,
+			    GetLastError(), "PacketSetLoopbackBehavior error");
 			goto bad;
 		}
 	}
