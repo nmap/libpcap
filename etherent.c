@@ -20,8 +20,8 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include etherent.c <config.h>
+#2817251062
 
 #include <pcap-types.h>
 
