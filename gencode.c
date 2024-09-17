@@ -742,9 +742,6 @@ int
 pcap_compile(pcap_t *p, struct bpf_program *program,
 	     const char *buf, int optimize, bpf_u_int32 mask)
 {
-#ifdef _WIN32
-	static int done = 0;
-#endif
 	compiler_state_t cstate;
 	yyscan_t scanner = NULL;
 	YY_BUFFER_STATE in_buffer = NULL;
@@ -761,12 +758,9 @@ pcap_compile(pcap_t *p, struct bpf_program *program,
 		return (PCAP_ERROR);
 	}
 
-#ifdef _WIN32
-	if (!done) {
-		pcap_wsockinit();
-		done = 1;
+	if(0 != pcapint_sockinit()) {
+		return (PCAP_ERROR);
 	}
-#endif
 
 #ifdef ENABLE_REMOTE
 	/*
@@ -890,6 +884,8 @@ quit:
 	 * Clean up our own allocated memory.
 	 */
 	freechunks(&cstate);
+
+	pcapint_sockcleanup();
 
 	return (rc);
 }
