@@ -76,6 +76,28 @@ static int pcap_setnonblock_npf(pcap_t *, int);
 /* Equivalent to ntohs(), but a lot faster under Windows */
 #define SWAPS(_X) ((_X & 0xff) << 8) | (_X >> 8)
 
+#if defined(_MSC_VER)
+#include <malloc.h>
+#define ALIGNED_ALLOC(size, align) _aligned_malloc((size), (align))
+#define ALIGNED_FREE(p) _aligned_free(p)
+
+#elif defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+#include <stdlib.h>
+#define ALIGNED_ALLOC(size, align) aligned_alloc((align), (size))
+#define ALIGNED_FREE(p) free(p)
+
+#elif defined(__MINGW32__) || defined(__MINGW64__) || defined(__GNUC__)
+#include <stdlib.h>
+#define ALIGNED_ALLOC(size, align) \
+    ({ void *p; if (posix_memalign(&p, (align), (size)) != 0) p = NULL; p; })
+#define ALIGNED_FREE(p) free(p)
+
+#else
+// No aligned alloc; use unaligned
+#define ALIGNED_ALLOC(size, align) malloc(size)
+#define ALIGNED_FREE(p) free(p)
+#endif
+
 /*
  * Private data for capturing on WinPcap/Npcap devices.
  */
@@ -444,28 +466,49 @@ pcap_sendqueue_transmit_npf(pcap_t *p, pcap_send_queue *queue, int sync)
 	return (res);
 }
 
+static void *
+pcap_aligned_buffer_alloc(int *size, char *errbuf) {
+	static int pagesize = 0;
+	int sz_out = 0;
+	void *new_buff = NULL;
+
+	if (*size <= 0) {
+		/* Bogus parameter */
+		snprintf(errbuf, PCAP_ERRBUF_SIZE,
+		    "Error: invalid size %d", *size);
+		return NULL;
+	}
+
+	if (pagesize == 0) {
+		SYSTEM_INFO si = {0};
+		GetSystemInfo(&si);
+		pagesize = si.dwPageSize;
+	}
+
+	/* round up size to multiple of alignment */
+	sz_out = ((*size + pagesize - 1) & ~(pagesize - 1));
+
+	/* Allocate the buffer */
+	new_buff = ALIGNED_ALLOC(sz_out, pagesize);
+	if (!new_buff) {
+		snprintf(errbuf, PCAP_ERRBUF_SIZE,
+		    "Error: not enough memory");
+		return NULL;
+	}
+	*size = sz_out;
+	return new_buff;
+}
+
 static int
 pcap_setuserbuffer_npf(pcap_t *p, int size)
 {
-	unsigned char *new_buff;
-
-	if (size<=0) {
-		/* Bogus parameter */
-		snprintf(p->errbuf, PCAP_ERRBUF_SIZE,
-		    "Error: invalid size %d",size);
-		return (-1);
-	}
-
-	/* Allocate the buffer */
-	new_buff=(unsigned char*)malloc(sizeof(char)*size);
+	unsigned char *new_buff = pcap_aligned_buffer_alloc(&size, p->errbuf);
 
 	if (!new_buff) {
-		snprintf(p->errbuf, PCAP_ERRBUF_SIZE,
-		    "Error: not enough memory");
 		return (-1);
 	}
 
-	free(p->buffer);
+	ALIGNED_FREE(p->buffer);
 
 	p->buffer=new_buff;
 	p->bufsize=size;
@@ -807,6 +850,11 @@ pcap_cleanup_npf(pcap_t *p)
 	if (pw->rfmon_selfstart)
 	{
 		PacketSetMonitorMode(p->opt.device, 0);
+	}
+	if (p->buffer)
+	{
+		ALIGNED_FREE(p->buffer);
+		p->buffer = NULL;
 	}
 	pcapint_cleanup_live_common(p);
 }
@@ -1239,9 +1287,6 @@ pcap_activate_npf(pcap_t *p)
 		}
 	}
 
-	/* Set the buffer size */
-	p->bufsize = WIN32_DEFAULT_USER_BUFFER_SIZE;
-
 	if(!(pw->adapter->Flags & INFO_FLAG_DAG_CARD))
 	{
 	/*
@@ -1260,11 +1305,12 @@ pcap_activate_npf(pcap_t *p)
 			goto bad;
 		}
 
-		p->buffer = malloc(p->bufsize);
+		/* Set the buffer size */
+		p->bufsize = WIN32_DEFAULT_USER_BUFFER_SIZE;
+
+		p->buffer = pcap_aligned_buffer_alloc(&p->bufsize, p->errbuf);
 		if (p->buffer == NULL)
 		{
-			pcapint_fmt_errmsg_for_errno(p->errbuf, PCAP_ERRBUF_SIZE,
-			    errno, "malloc");
 			goto bad;
 		}
 
