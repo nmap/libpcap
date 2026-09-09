@@ -668,7 +668,7 @@ airpcap_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
 		 */
 		if (pa->filtering_in_kernel ||
 		    p->fcode.bf_insns == NULL ||
-		    pcapint_filter(p->fcode.bf_insns, datap, bhp->Originallen, caplen)) {
+		    pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len, datap, bhp->Originallen, caplen)) {
 			struct pcap_pkthdr pkthdr;
 
 			pkthdr.ts.tv_sec = bhp->TsSec;
